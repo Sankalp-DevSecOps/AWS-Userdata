@@ -1,0 +1,15 @@
+#!/bin/bash
+sudo apt-get update
+sudo apt-get install openjdk-11-jdk -y
+cd /opt
+sudo wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.93/bin/apache-tomcat-9.0.93.tar.gz
+sudo tar -xvzf apache-tomcat-9.0.93.tar.gz
+sudo rm -rf apache-tomcat-9.0.93.tar.gz
+sudo mv apache-tomcat* tomcat
+sudo chmod +x /opt/tomcat/bin/startup.sh
+sudo chmod +x /opt/tomcat/bin/shutdown.sh
+sudo ln -s /opt/tomcat/bin/startup.sh /usr/local/bin/tomcatup
+sudo ln -s /opt/tomcat/bin/shutdown.sh /usr/local/bin/tomcatdown
+sudo sed -i '/<Connector port="8080"/s/8080/9090/' /opt/tomcat/conf/server.xml
+sudo apt-get update
+sudo tomcatup

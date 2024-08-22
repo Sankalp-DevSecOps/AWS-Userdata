@@ -1,0 +1,32 @@
+#!/bin/bash
+sudo apt-get update -y
+sudo apt install openjdk-11-jdk -y
+cd /opt/
+sudo wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-8.9.10.61524.zip
+sudo apt install unzip
+sudo unzip sonarqube*.zip
+sudo rm -rf *.zip
+sudo mv sonarqube* sonarqube
+sudo adduser --system --group --home /home/sonar --disabled-login sonar
+sudo chown -R sonar:sonar /opt/sonarqube
+sudo tee /etc/systemd/system/sonar.service > /dev/null <<EOL
+[Unit]
+Description=SonarQube service
+After=network.target
+
+[Service]
+Type=forking
+LimitNOFILE=65536
+User=sonar
+Group=sonar
+ExecStart=/opt/sonarqube/bin/linux-x86-64/sonar.sh start
+ExecStop=/opt/sonarqube/bin/linux-x86-64/sonar.sh stop
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+EOL
+sudo chmod 777 /etc/systemd/system/sonar.service
+sudo systemctl daemon-reload
+sudo apt-get update -y
+sudo -u sonar /opt/sonarqube/bin/linux-x86-64/sonar.sh start

@@ -1,0 +1,44 @@
+sudo -i
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+-shutdown before editing
+sudo tomcatdown
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+-edit manager and host-manager context.xml
+
+vi /opt/tomcat/webapps/manager/META-INF/context.xml
+  <!--  <Valve className="org.apache.catalina.valves.RemoteAddrValve"
+  allow="127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1" /> -->
+
+
+vi /opt/tomcat/webapps/host-manager/META-INF/context.xml
+  <!--  <Valve className="org.apache.catalina.valves.RemoteAddrValve"
+  allow="127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1" /> -->
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+--edit tomcat-users.xml , give space and paste roles
+vi /opt/tomcat/conf/tomcat-users.xml
+
+<role rolename="manager-gui"/>
+<role rolename="manager-script"/>
+<role rolename="manager-jmx"/>
+<role rolename="manager-status"/>
+<user username="admin" password="admin" roles="manager-gui, manager-script, manager-jmx, manager-status"/>
+<user username="deployer" password="deployer" roles="manager-script"/>
+<user username="tomcat" password="s3cret" roles="manager-gui"/>
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+restart tomcat after edit
+sudo apt-get update
+sudo tomcatup
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Already Edited
+---------------
+
+-change port 8080 to 9090
+vi /opt/tomcat/conf/server.xml
+
+    <Connector port="8080" protocol="HTTP/1.1"
+"8080 to 9090"
+--------------------------------------------------------------------------------------------------------------------------------------------------------------

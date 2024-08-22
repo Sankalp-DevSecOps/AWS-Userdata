@@ -1,0 +1,10 @@
+-set password
+sudo passwd nexus
+
+-edit visudo for preilies
+sudo visudo
+          nexus ALL=(ALL) NOPASSWD: ALL
+
+-login as nexus user
+su - nexus
+

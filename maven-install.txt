@@ -1,0 +1,15 @@
+#!/bin/bash
+sudo apt-get update
+sudo apt-get install openjdk-11-jdk -y
+cd /opt
+wget https://dlcdn.apache.org/maven/maven-3/3.9.8/binaries/apache-maven-3.9.8-bin.tar.gz
+sudo tar -xzf apache-maven-3.9.8-bin.tar.gz
+sudo rm -rf apache-maven-3.9.8-bin.tar.gz
+sudo mv apache-maven* maven
+cat <<EOF | sudo tee /etc/profile.d/maven.sh
+export M2_HOME=/opt/maven
+export PATH=\$M2_HOME/bin:\$PATH
+EOF
+sudo apt-get update
+source /etc/profile.d/maven.sh
+sudo apt-get update -y
